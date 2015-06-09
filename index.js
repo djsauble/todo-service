@@ -13,12 +13,15 @@ app.set('view engine', 'jade');
 
 app.use(bodyParser.json());
 
-var mongoHost = 'localHost';
-var mongoPort = 27017;
-var mongoDatabase = 'MyDatabase';
 var collectionDriver;
 
-MongoClient.connect("mongodb://" + mongoHost + ":" + mongoPort + "/" + mongoDatabase, function(err, mongoClient) {
+var u = 'heroku_app37689296';
+var p = 'heroku_app37689296';
+var h = 'ds045632.mongolab.com';
+var p = 45632;
+var d = 'heroku_app37689296';
+
+MongoClient.connect("mongodb://" + u + ":" + p + "@" + h + ":" + p + "/" + d, function(err, mongoClient) {
   if (err) {
     console.error("Error! Exiting... Must start MongoDB first");
     process.exit(1);
