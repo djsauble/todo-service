@@ -12,10 +12,10 @@ CollectionDriver.prototype.getCollection = function(collectionName, callback) {
 };
 
 CollectionDriver.prototype.findAll = function(collectionName, callback) {
-  this.getCollection(collectionName, function(error, the_collection) { //A
+  this.getCollection(collectionName, function(error, the_collection) {
     if (error) callback(error);
     else {
-      the_collection.find().toArray(function(error, results) { //B
+      the_collection.find().toArray(function(error, results) {
         console.log(results);
         if (error) callback(error);
         else callback(null, results);
@@ -24,13 +24,13 @@ CollectionDriver.prototype.findAll = function(collectionName, callback) {
   });
 };
 
-CollectionDriver.prototype.get = function(collectionName, id, callback) { //A
+CollectionDriver.prototype.get = function(collectionName, id, callback) {
   this.getCollection(collectionName, function(error, the_collection) {
     if (error) callback(error);
     else {
-      var checkForHexRegExp = newRegExp("^[0-9a-fA-F]{24}$"); //B
+      var checkForHexRegExp = newRegExp("^[0-9a-fA-F]{24}$");
       if (!checkForHexRegExp.test(id)) callback({error: "invalid id"});
-      else the_collection.findOne({'_id':ObjectID(id)}, function(error,doc) { //C
+      else the_collection.findOne({'_id':ObjectID(id)}, function(error,doc) {
         if (error) callback(error);
         else callback(null, doc);
       });
@@ -40,11 +40,11 @@ CollectionDriver.prototype.get = function(collectionName, id, callback) { //A
 
 // Save new object
 CollectionDriver.prototype.save = function(collectionName, obj, callback) {
-  this.getCollection(collectionName, function(error, the_collection) { //A
+  this.getCollection(collectionName, function(error, the_collection) {
     if (error) callback(error)
     else {
-      obj.created_at = new Date(); //B
-      the_collection.insert(obj, function(error, record) { //C
+      obj.created_at = new Date();
+      the_collection.insert(obj, function(error, record) {
         console.log(error);
         callback(null, obj);
       });
@@ -57,9 +57,9 @@ CollectionDriver.prototype.update = function(collectionName, obj, entityId, call
   this.getCollection(collectionName, function(error, the_collection) {
     if (error) callback(error);
     else {
-      obj._id = ObjectID(entityId); //A convert to a real obj id
-      obj.updated_at = new Date(); //B
-      the_collection.save(obj, function(error, doc) { //C
+      obj._id = ObjectID(entityId);
+      obj.updated_at = new Date();
+      the_collection.save(obj, function(error, doc) {
         if (error) callback(error);
         else callback(null, obj);
       });
@@ -69,10 +69,10 @@ CollectionDriver.prototype.update = function(collectionName, obj, entityId, call
 
 // Delete a specific object
 CollectionDriver.prototype.delete = function(collectionName, entityId, callback) {
-  this.getCollection(collectionName, function(error, the_collection) { //A
+  this.getCollection(collectionName, function(error, the_collection) {
     if (error) callback(error);
     else {
-      the_collection.remove({'_id': ObjectID(entityId)}, function(error,doc) { //B
+      the_collection.remove({'_id': ObjectID(entityId)}, function(error,doc) {
         if (error) callback(error);
         else callback(null, doc);
       });
