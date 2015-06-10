@@ -19,15 +19,16 @@ var user = 'todo';
 var pass = 'sR6YfVdXkz';
 var host = 'ds045632.mongolab.com';
 var port = 45632;
-var db = 'heroku_app37689296';
-var str = "mongodb://" + user + ":" + pass + "@" + host + ":" + port + "/" + db;
+var modb = 'heroku_app37689296';
+var str  = "mongodb://" + user + ":" + pass + "@" + host + ":" + port + "/" + modb;
+console.log(str);
 
 MongoClient.connect(str, function(err, mongoClient) {
   if (err) {
     console.error("Error! Exiting... Must start MongoDB first");
     process.exit(1);
   }
-  var db = mongoClient.db(mongoDatabase);
+  var db = mongoClient.db(modb);
   collectionDriver = new CollectionDriver(db);
 });
 
