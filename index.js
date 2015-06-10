@@ -15,13 +15,14 @@ app.use(bodyParser.json());
 
 var collectionDriver;
 
-var u = 'todo';
-var p = 'sR6YfVdXkz';
-var h = 'ds045632.mongolab.com';
-var p = 45632;
-var d = 'heroku_app37689296';
+var user = 'todo';
+var pass = 'sR6YfVdXkz';
+var host = 'ds045632.mongolab.com';
+var port = 45632;
+var db = 'heroku_app37689296';
+var str = "mongodb://" + user + ":" + pass + "@" + host + ":" + port + "/" + db;
 
-MongoClient.connect("mongodb://" + u + ":" + p + "@" + h + ":" + p + "/" + d, function(err, mongoClient) {
+MongoClient.connect(str, function(err, mongoClient) {
   if (err) {
     console.error("Error! Exiting... Must start MongoDB first");
     process.exit(1);
