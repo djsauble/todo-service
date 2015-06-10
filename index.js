@@ -21,7 +21,6 @@ var host = 'ds045632.mongolab.com';
 var port = 45632;
 var modb = 'heroku_app37689296';
 var str  = "mongodb://" + user + ":" + pass + "@" + host + ":" + port + "/" + modb;
-console.log(str);
 
 MongoClient.connect(str, function(err, mongoClient) {
   if (err) {
@@ -37,14 +36,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/:collection', function(req, res) {
   var params = req.params;
   collectionDriver.findAll(req.params.collection, function(error, objs) {
-    if (error) { res.send(400, error); }
+    if (error) { res.status(400).send(error); }
     else {
-      if (req.accepts('html')) {
-        res.render('data', { objects: objs, collection: req.params.collection });
-      } else {
-        res.set('Content-Type', 'application/json');
-        res.send(200, objs);
-      }
+      res.set('Content-Type', 'application/json');
+      res.status(200).send(objs);
     }
   });
 });
@@ -52,14 +47,16 @@ app.get('/:collection', function(req, res) {
 app.get('/:collection/:entity', function(req, res) {
   var params = req.params;
   var entity = params.entity;
-  var collection = params.collection;
   if (entity) {
-    collectionDriver.get(collection, entity, function(error, objs) {
-      if (error) { res.send(400, error); }
-      else { res.send(200, objs); }
+    collectionDriver.get(req.params.collection, entity, function(error, objs) {
+      if (error) { res.status(400).send(error); }
+      else {
+        res.set('Content-Type', 'application/json');
+        res.status(200).send(objs);
+      }
     });
   } else {
-    res.send(400, {error: 'bad url', url: req.url});
+    res.status(400).send({error: 'bad url', url: req.url});
   }
 });
 
@@ -67,8 +64,8 @@ app.post('/:collection', function(req, res) {
   var object = req.body;
   var collection = req.params.collection;
   collectionDriver.save(collection, object, function(err, docs) {
-    if (err) { res.send(400, err); }
-    else { res.send(201, docs); }
+    if (err) { res.status(400).send(err); }
+    else { res.status(201).send(docs); }
   });
 });
 
@@ -78,12 +75,12 @@ app.put('/:collection/:entity', function(req, res) {
   var collection = params.collection;
   if (entity) {
     collectionDriver.update(collection, req.body, entity, function(error, objs) {
-      if (error) { res.send(400, error); }
-      else { res.send(200, objs); }
+      if (error) { res.status(400).send(error); }
+      else { res.status(400).send(objs); }
     });
   } else {
     var error = { "message": "Cannot PUT a whole collection" };
-    res.send(400, error);
+    res.status(400).send(error);
   }
 });
 
@@ -93,12 +90,12 @@ app.delete('/:collection/:entity', function(req, res) {
   var collection = params.collection;
   if (entity) {
     collectionDriver.delete(collection, entity, function(error, objs) {
-      if (error) { res.send(400, error); }
-      else { res.send(200, objs); }
+      if (error) { res.status(400).send(error); }
+      else { res.status(200).send(objs); }
     });
   } else {
     var error = { "message" : "Cannot DELETE a whole collection" };
-    res.send(400, error);
+    res.status(400).send(error);
   }
 });
 

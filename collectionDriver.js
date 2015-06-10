@@ -28,7 +28,7 @@ CollectionDriver.prototype.get = function(collectionName, id, callback) {
   this.getCollection(collectionName, function(error, the_collection) {
     if (error) callback(error);
     else {
-      var checkForHexRegExp = newRegExp("^[0-9a-fA-F]{24}$");
+      var checkForHexRegExp = new RegExp("^[0-9a-fA-F]{24}$");
       if (!checkForHexRegExp.test(id)) callback({error: "invalid id"});
       else the_collection.findOne({'_id':ObjectID(id)}, function(error,doc) {
         if (error) callback(error);
