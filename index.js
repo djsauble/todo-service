@@ -1,6 +1,6 @@
 var express = require('express')
-   , nano    = require('nano')('https://thistrompecoughtsideneet:VW6uPL3kNHbdlHuoovjWVCUX@djsauble.cloudant.com/todos')
-   , app     = module.exports = express.createServer();
+   , db    = require('nano')('https://thistrompecoughtsideneet:VW6uPL3kNHbdlHuoovjWVCUX@djsauble.cloudant.com/todos')
+   , app     = module.exports = express();
 
 app.get("/", function(request,response) {
   db.get("foo", function (error, body, headers) {
