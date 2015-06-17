@@ -31,8 +31,6 @@ MongoClient.connect(str, function(err, mongoClient) {
   collectionDriver = new CollectionDriver(db);
 });
 
-app.use(express.static(path.join(__dirname, 'public')));
-
 app.get('/:collection', function(req, res) {
   var params = req.params;
   collectionDriver.findAll(req.params.collection, function(error, objs) {
