@@ -3,9 +3,9 @@ var express = require('express')
    , app     = module.exports = express();
 
 app.get("/", function(request,response) {
-  db.get("foo", function (error, body, headers) {
-    if(error) { return response.send(error.message, error['status-code']); }
-    response.send(body, 200);
+  db.list(function (error, body, headers) {
+    if(error) { return response.status(error['status-code']).send(error.message); }
+    response.status(200).send(body);
   });
 });
 
