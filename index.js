@@ -1,6 +1,10 @@
-var express = require('express')
-   , db    = require('nano')('https://thistrompecoughtsideneet:VW6uPL3kNHbdlHuoovjWVCUX@djsauble.cloudant.com/todos')
-   , app     = module.exports = express();
+var express = require('express'),
+    user    = 'thistrompecoughtsideneet',
+    pass    = 'VW6uPL3kNHbdlHuoovjWVCUX',
+    host    = 'djsauble.cloudant.com',
+    path    = '/todos',
+    db      = require('nano')('https://' + user + ':' + pass + '@' + host + path),
+    app     = express();
 
 app.get("/", function(request,response) {
   db.list(function (error, body, headers) {
@@ -9,5 +13,5 @@ app.get("/", function(request,response) {
   });
 });
 
-app.listen(3333);
+app.listen(process.env.PORT || 3000);
 console.log("server is running. check expressjs.org for more cool tricks");
